@@ -1,7 +1,7 @@
 services:
-  class-chat:
+  thelounge:
     image: thelounge/thelounge:latest
-    container_name: class-chat
+    container_name: thelounge
     restart: always
     volumes:
       - ./data:/var/opt/thelounge
@@ -44,7 +44,7 @@ services:
       - .env
     command: tunnel --no-autoupdate run
     depends_on:
-      - class-chat
+      - thelounge
     networks:
       - school-net
     deploy:

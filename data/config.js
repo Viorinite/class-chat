@@ -16,6 +16,6 @@ module.exports = {
     nick: "",
     username: "siswa",
     realname: "Siswa",
-    channels: ["#general"],
+    join: "#class",
   },
 };
