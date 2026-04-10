@@ -1,0 +1,57 @@
+services:
+  class-chat:
+    image: thelounge/thelounge:latest
+    container_name: class-chat
+    restart: always
+    volumes:
+      - ./data:/var/opt/thelounge
+      - ./data/config.js:/var/opt/thelounge/config.js
+      - ./data/student.css:/usr/local/share/.config/yarn/global/node_modules/thelounge/public/themes/student.css:ro
+      - ./data/logo-transparent-bg.svg:/usr/local/share/.config/yarn/global/node_modules/thelounge/public/img/logo-transparent-bg.svg:ro
+      - ./data/logo-horizontal-transparent-bg.svg:/usr/local/share/.config/yarn/global/node_modules/thelounge/public/img/logo-horizontal-transparent-bg.svg:ro
+      - ./data/clean-nick.js:/usr/local/share/.config/yarn/global/node_modules/thelounge/public/clean-nick.js:ro
+      - /nix/store/h15ranlgwagilr6ajd7ich6d896kf9zd-tzdata-2026a/share/zoneinfo/Asia/Jakarta:/etc/localtime:ro
+    ports:
+      - "9000:9000"
+    command: >
+      sh -c "find /usr/local/share/.config/yarn/global/node_modules/thelounge -name 'index.html*' -exec sed -i 's|</head>|<script src=\"clean-nick.js\"></script></head>|' {} + && thelounge start"
+    environment:
+      - NODE_ENV=production
+      - TZ=Asia/Jakarta
+    networks:
+      - school-net
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  ircd:
+    image: ergochat/ergo:latest
+    container_name: ircd
+    restart: unless-stopped
+    networks:
+      - school-net
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared
+    restart: unless-stopped
+    env_file:
+      - .env
+    command: tunnel --no-autoupdate run
+    depends_on:
+      - class-chat
+    networks:
+      - school-net
+    deploy:
+      resources:
+        limits:
+          memory: 64M
+
+networks:
+  school-net:
+    driver: bridge

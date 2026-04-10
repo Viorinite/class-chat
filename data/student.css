@@ -1,0 +1,74 @@
+/* Student Access Customizations */
+
+/* 1. Localization: Nickname label customization */
+label[for="connect:nick"] {
+    font-size: 0 !important;
+}
+label[for="connect:nick"]::before {
+    content: "Nama";
+    font-size: 16px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* 2. Localization: Connection button text customization */
+.connect button#connect {
+    font-size: 0 !important;
+}
+.connect button#connect::before {
+    content: "Masuk";
+    font-size: 18px;
+    display: block;
+}
+
+/* 3. Placeholder implementation logic */
+/* Faking a placeholder since we can't edit the HTML directly */
+.connect-row:has(#connect\:nick)::after {
+    content: "Masukkan Nama";
+    color: #999;
+    position: absolute;
+    top: 35px;
+    left: 15px;
+    pointer-events: none;
+    opacity: 0.6;
+    display: none;
+}
+/* Only show when input is empty (placeholder-shown hack) */
+.connect-row:has(#connect\:nick:placeholder-shown)::after {
+    display: block;
+}
+
+/* 4. UI Decluttering and restriction logic */
+/* Hide all rows EXCEPT Nick and Connect */
+.connect-row:not(:has(#connect\:nick)):not(:has(#connect)), 
+.connect h1, 
+.connect .section-header,
+.connect h2 {
+    display: none !important;
+}
+
+/* 5. Customized error messaging */
+.error { font-size: 0 !important; }
+.error::before {
+    content: "Maaf, ada yang sudah masuk dengan nama anda. Coba gunakan nama lain.";
+    font-size: 14px;
+    color: #d9534f;
+    display: block;
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* Explicitly show the Nick row and the Connect button row */
+.connect-row:has(#connect\:nick),
+.connect-row:has(#connect) {
+    display: block !important;
+}
+
+/* Make the Nickname field look cleaner */
+#connect\:nick {
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    padding: 12px;
+    font-size: 1.1em;
+    width: 100%;
+}

@@ -1,0 +1,21 @@
+# The Lounge Runtime & Sensitive Data
+data/logs/
+data/uploads/
+data/packages/
+data/users/
+data/vapid.json
+
+# Whitelist configuration and custom logic
+!data/config.js
+!data/*.js
+!data/*.css
+!data/*.svg
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# OS specific files
+.DS_Store
+Thumbs.db
