@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Class Chat</title>
+    <link rel="stylesheet" href="/styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section id="join-view" class="join-card" aria-labelledby="join-title">
+        <p class="eyebrow">Classroom Chat</p>
+        <h1 id="join-title">Join the room</h1>
+        <p class="intro">Enter your real name and today&rsquo;s shared room password.</p>
+
+        <form id="join-form" class="join-form" autocomplete="off">
+          <label for="name-input">Real name</label>
+          <input id="name-input" name="name" type="text" maxlength="40" autocomplete="name" required>
+
+          <label for="password-input">Room password</label>
+          <input id="password-input" name="password" type="password" autocomplete="off" required>
+
+          <button type="submit">Join chat</button>
+        </form>
+
+        <p id="join-error" class="error-message" role="alert" aria-live="polite"></p>
+      </section>
+
+      <section id="chat-view" class="chat-view" aria-label="Classroom chat" hidden>
+        <header class="chat-header">
+          <div>
+            <p class="eyebrow">Live Room</p>
+            <h1>Class Chat</h1>
+          </div>
+          <p id="chat-error" class="error-message" role="alert" aria-live="polite"></p>
+        </header>
+
+        <aside class="users-panel" aria-labelledby="users-title">
+          <h2 id="users-title">Online</h2>
+          <ul id="users-list"></ul>
+        </aside>
+
+        <section class="messages-panel" aria-label="Messages">
+          <div id="messages-list" class="messages-list" aria-live="polite"></div>
+        </section>
+
+        <form id="message-form" class="message-form" autocomplete="off">
+          <label class="sr-only" for="message-input">Message</label>
+          <input id="message-input" name="message" type="text" maxlength="1000" placeholder="Type a message..." required>
+          <button type="submit">Send</button>
+        </form>
+      </section>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/client.js"></script>
+  </body>
+</html>

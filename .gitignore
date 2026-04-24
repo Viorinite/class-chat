@@ -1,4 +1,4 @@
-# The Lounge Runtime & Sensitive Data
+# Legacy runtime and sensitive data
 data/logs/
 data/uploads/
 data/packages/
@@ -15,6 +15,9 @@ data/vapid.json
 .env
 .env.*
 !.env.example
+
+# Node dependencies
+node_modules/
 
 # OS specific files
 .DS_Store
