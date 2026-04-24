@@ -44,6 +44,10 @@ function trimmedString(value) {
   return typeof value === "string" ? value.trim() : "";
 }
 
+function isPlainObject(value) {
+  return value !== null && typeof value === "object" && !Array.isArray(value);
+}
+
 function assignDisplayColor(requestedColor) {
   if (DISPLAY_COLORS.includes(requestedColor)) {
     return requestedColor;
@@ -61,12 +65,18 @@ function assignDisplayColor(requestedColor) {
 }
 
 io.on("connection", (socket) => {
-  socket.on("join", ({ name, password, color } = {}) => {
+  socket.on("join", (payload) => {
     if (users.has(socket.id)) {
       sendAppError(socket, "You are already in the classroom.");
       return;
     }
 
+    if (!isPlainObject(payload)) {
+      sendAppError(socket, "Invalid join request.");
+      return;
+    }
+
+    const { name, password, color } = payload;
     const displayName = trimmedString(name);
 
     if (!displayName) {
@@ -100,12 +110,18 @@ io.on("connection", (socket) => {
     io.to(CLASSROOM_ROOM).emit("users:update", usersList);
   });
 
-  socket.on("chat:send", ({ text } = {}) => {
+  socket.on("chat:send", (payload) => {
     if (!users.has(socket.id)) {
       sendAppError(socket, "Please join the classroom before sending messages.");
       return;
     }
 
+    if (!isPlainObject(payload)) {
+      sendAppError(socket, "Invalid message request.");
+      return;
+    }
+
+    const { text } = payload;
     const messageText = trimmedString(text);
 
     if (!messageText) {
