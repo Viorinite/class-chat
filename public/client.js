@@ -26,6 +26,23 @@
     chatError.textContent = "";
   }
 
+  function resetToJoin(message) {
+    if (!hasJoined) {
+      return;
+    }
+
+    hasJoined = false;
+    passwordInput.value = "";
+    messageInput.value = "";
+    chatView.hidden = true;
+    joinView.hidden = false;
+    renderUsers([]);
+    messagesList.replaceChildren();
+    clearError();
+    joinError.textContent = message;
+    nameInput.focus();
+  }
+
   function renderUsers(users) {
     usersList.replaceChildren();
 
@@ -157,5 +174,13 @@
 
   socket.on("chat:message", (message) => {
     renderMessage(message);
+  });
+
+  socket.on("disconnect", () => {
+    resetToJoin("Connection changed. Please join again.");
+  });
+
+  socket.on("connect", () => {
+    resetToJoin("Connection changed. Please join again.");
   });
 })();

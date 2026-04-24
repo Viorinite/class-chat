@@ -62,6 +62,11 @@ function assignDisplayColor(requestedColor) {
 
 io.on("connection", (socket) => {
   socket.on("join", ({ name, password, color } = {}) => {
+    if (users.has(socket.id)) {
+      sendAppError(socket, "You are already in the classroom.");
+      return;
+    }
+
     const displayName = trimmedString(name);
 
     if (!displayName) {
