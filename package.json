@@ -1,0 +1,15 @@
+{
+  "name": "class-chat",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Minimal classroom chat MVP using Express and Socket.io.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "socket.io": "^4.8.1"
+  }
+}
