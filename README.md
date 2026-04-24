@@ -78,7 +78,15 @@ The Cloudflare Tunnel public hostname `chat.nicky.my.id` should route to:
 http://app:3000
 ```
 
-inside the Compose network.
+inside the Compose network when you are using this repo-managed tunnel profile.
+
+If you are using an existing/global `cloudflared` container outside this Compose project, it usually cannot resolve the Compose service name `app`. In that setup, point the public hostname route at the host-mapped app port instead, usually:
+
+```text
+http://localhost:3000
+```
+
+or the server's LAN/Tailscale address on port `3000`, depending on that tunnel container's network mode.
 
 ## Troubleshooting
 
@@ -102,9 +110,13 @@ ROOM_PASSWORD=change-me npm start
 
 ### The public URL still shows The Lounge
 
-If `http://localhost:3000` shows the new class-chat app but `chat.nicky.my.id` still shows The Lounge, the external Cloudflare Tunnel route is still pointing at the old service or old port. Update the Cloudflare Tunnel public hostname route so `chat.nicky.my.id` points to `http://app:3000` for this Compose stack.
+If `http://localhost:3000` or the Tailscale test URL shows the new class-chat app but `chat.nicky.my.id` still shows The Lounge, the public Cloudflare Tunnel route is still pointing at the old service or old port.
 
-Also check whether an older global `cloudflared` container is still running. Do not delete unrelated homelab containers just because they exist; stop or change only the tunnel that owns the old `chat.nicky.my.id` route.
+For this repo-managed tunnel profile, update the Cloudflare Tunnel public hostname route so `chat.nicky.my.id` points to `http://app:3000` inside the Compose network.
+
+If an older/global `cloudflared` container owns the public route instead, point that tunnel at the host-mapped app port, usually `http://localhost:3000` or the server LAN/Tailscale address on port `3000`, depending on that tunnel's network mode.
+
+Leave the old The Lounge fallback untouched unless you explicitly decide to switch the public route. Do not delete unrelated homelab containers just because they exist, and do not run global Docker prune commands for this fix; stop or change only the tunnel that owns the old `chat.nicky.my.id` route.
 
 ### Old The Lounge or IRC containers still appear
 

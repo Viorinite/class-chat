@@ -1,5 +1,6 @@
 (function () {
   const socket = io();
+  const DISPLAY_COLORS = ["#155043", "#2451a6", "#7a3f99", "#8a3b2f", "#6b5b13", "#006d77"];
 
   const joinView = document.getElementById("join-view");
   const chatView = document.getElementById("chat-view");
@@ -28,9 +29,14 @@
   function renderUsers(users) {
     usersList.replaceChildren();
 
-    users.forEach((name) => {
+    users.forEach((user) => {
       const item = document.createElement("li");
-      item.textContent = name;
+      item.textContent = user.name;
+
+      if (DISPLAY_COLORS.includes(user.color)) {
+        item.style.color = user.color;
+      }
+
       usersList.append(item);
     });
   }
@@ -79,6 +85,10 @@
     name.className = "message-name";
     name.textContent = message.name;
 
+    if (DISPLAY_COLORS.includes(message.color)) {
+      name.style.color = message.color;
+    }
+
     const time = document.createElement("time");
     time.dateTime = message.timestamp;
     time.textContent = new Date(message.timestamp).toLocaleTimeString([], {
@@ -102,8 +112,14 @@
 
     const name = nameInput.value.trim();
     const password = passwordInput.value;
+    const selectedColor = joinForm.elements["display-color"].value;
+    const joinPayload = { name, password };
 
-    socket.emit("join", { name, password });
+    if (DISPLAY_COLORS.includes(selectedColor)) {
+      joinPayload.color = selectedColor;
+    }
+
+    socket.emit("join", joinPayload);
   });
 
   messageForm.addEventListener("submit", (event) => {

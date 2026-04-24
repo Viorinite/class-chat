@@ -11,6 +11,7 @@ const MESSAGE_COOLDOWN_MS = 1000;
 const MAX_NAME_LENGTH = 40;
 const MAX_MESSAGE_LENGTH = 1000;
 const MAX_RECENT_MESSAGES = 50;
+const DISPLAY_COLORS = ["#155043", "#2451a6", "#7a3f99", "#8a3b2f", "#6b5b13", "#006d77"];
 
 const roomPassword = process.env.ROOM_PASSWORD;
 
@@ -29,7 +30,10 @@ const recentMessages = [];
 app.use(express.static(path.join(__dirname, "public")));
 
 function currentUsersList() {
-  return Array.from(users.values()).map((user) => user.name);
+  return Array.from(users.values()).map((user) => ({
+    name: user.name,
+    color: user.color
+  }));
 }
 
 function sendAppError(socket, message) {
@@ -40,8 +44,24 @@ function trimmedString(value) {
   return typeof value === "string" ? value.trim() : "";
 }
 
+function assignDisplayColor(requestedColor) {
+  if (DISPLAY_COLORS.includes(requestedColor)) {
+    return requestedColor;
+  }
+
+  const colorCounts = new Map(DISPLAY_COLORS.map((color) => [color, 0]));
+
+  users.forEach((user) => {
+    colorCounts.set(user.color, (colorCounts.get(user.color) || 0) + 1);
+  });
+
+  return DISPLAY_COLORS.reduce((leastUsedColor, color) => {
+    return colorCounts.get(color) < colorCounts.get(leastUsedColor) ? color : leastUsedColor;
+  }, DISPLAY_COLORS[0]);
+}
+
 io.on("connection", (socket) => {
-  socket.on("join", ({ name, password } = {}) => {
+  socket.on("join", ({ name, password, color } = {}) => {
     const displayName = trimmedString(name);
 
     if (!displayName) {
@@ -61,6 +81,7 @@ io.on("connection", (socket) => {
 
     users.set(socket.id, {
       name: displayName,
+      color: assignDisplayColor(color),
       lastMessageAt: 0
     });
 
@@ -104,6 +125,7 @@ io.on("connection", (socket) => {
 
     const message = {
       name: user.name,
+      color: user.color,
       text: messageText,
       timestamp: new Date(now).toISOString()
     };
