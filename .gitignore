@@ -19,3 +19,7 @@ data/vapid.json
 # OS specific files
 .DS_Store
 Thumbs.db
+
+# Local agent/runtime artifacts
+.codex
+result
