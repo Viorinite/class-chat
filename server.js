@@ -80,7 +80,7 @@ io.on("connection", (socket) => {
     const displayName = trimmedString(name);
 
     if (!displayName) {
-      sendAppError(socket, "Please enter your real name.");
+      sendAppError(socket, "Masukkan nama terlebih dahulu.");
       return;
     }
 
@@ -90,7 +90,7 @@ io.on("connection", (socket) => {
     }
 
     if (password !== roomPassword) {
-      sendAppError(socket, "The room password is incorrect.");
+      sendAppError(socket, "Kata sandi ruang salah.");
       return;
     }
 
@@ -138,7 +138,7 @@ io.on("connection", (socket) => {
     const now = Date.now();
 
     if (now - user.lastMessageAt < MESSAGE_COOLDOWN_MS) {
-      sendAppError(socket, "Please wait a moment before sending another message.");
+      sendAppError(socket, "Tunggu sebentar sebelum mengirim pesan lagi.");
       return;
     }
 

@@ -1,68 +1,69 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Class Chat</title>
+    <title>Obrolan Kelas</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23155043'/%3E%3Cpath fill='%23fff' d='M16 17h32a5 5 0 0 1 5 5v17a5 5 0 0 1-5 5H29l-10 7v-7h-3a5 5 0 0 1-5-5V22a5 5 0 0 1 5-5Z'/%3E%3Ccircle cx='25' cy='31' r='3' fill='%23155043'/%3E%3Ccircle cx='33' cy='31' r='3' fill='%23155043'/%3E%3Ccircle cx='41' cy='31' r='3' fill='%23155043'/%3E%3C/svg%3E">
     <link rel="stylesheet" href="/styles.css">
   </head>
   <body>
     <main class="app-shell">
       <section id="join-view" class="join-card" aria-labelledby="join-title">
-        <p class="eyebrow">Classroom Chat</p>
-        <h1 id="join-title">Join the room</h1>
-        <p class="intro">Enter your real name and today&rsquo;s shared room password.</p>
+        <p class="eyebrow">Obrolan Kelas</p>
+        <h1 id="join-title">Masuk ke Ruang Kelas</h1>
+        <p class="intro">Masukkan nama asli dan kata sandi ruang kelas hari ini.</p>
 
         <form id="join-form" class="join-form" autocomplete="off">
-          <label for="name-input">Real name</label>
+          <label for="name-input">Nama</label>
           <input id="name-input" name="name" type="text" maxlength="40" autocomplete="name" required>
 
-          <label for="password-input">Room password</label>
+          <label for="password-input">Kata sandi ruang</label>
           <input id="password-input" name="password" type="password" autocomplete="off" required>
 
           <fieldset class="color-picker">
-            <legend>Display color</legend>
+            <legend>Pilih warna nama</legend>
             <label class="color-choice color-choice-auto">
               <input type="radio" name="display-color" value="" checked>
-              <span>Assign for me</span>
+              <span>Pilihkan otomatis</span>
             </label>
             <label class="color-choice">
               <input type="radio" name="display-color" value="#155043">
-              <span style="--choice-color: #155043">Deep green</span>
+              <span style="--choice-color: #155043">Hijau tua</span>
             </label>
             <label class="color-choice">
               <input type="radio" name="display-color" value="#2451a6">
-              <span style="--choice-color: #2451a6">Blue</span>
+              <span style="--choice-color: #2451a6">Biru</span>
             </label>
             <label class="color-choice">
               <input type="radio" name="display-color" value="#7a3f99">
-              <span style="--choice-color: #7a3f99">Purple</span>
+              <span style="--choice-color: #7a3f99">Ungu</span>
             </label>
             <label class="color-choice">
               <input type="radio" name="display-color" value="#8a3b2f">
-              <span style="--choice-color: #8a3b2f">Brick</span>
+              <span style="--choice-color: #8a3b2f">Bata</span>
             </label>
             <label class="color-choice">
               <input type="radio" name="display-color" value="#6b5b13">
-              <span style="--choice-color: #6b5b13">Olive</span>
+              <span style="--choice-color: #6b5b13">Zaitun</span>
             </label>
             <label class="color-choice">
               <input type="radio" name="display-color" value="#006d77">
-              <span style="--choice-color: #006d77">Teal</span>
+              <span style="--choice-color: #006d77">Toska</span>
             </label>
           </fieldset>
 
-          <button type="submit">Join chat</button>
+          <button type="submit">Masuk</button>
         </form>
 
         <p id="join-error" class="error-message" role="alert" aria-live="polite"></p>
       </section>
 
-      <section id="chat-view" class="chat-view" aria-label="Classroom chat" hidden>
+      <section id="chat-view" class="chat-view" aria-label="Obrolan kelas" hidden>
         <header class="chat-header">
           <div>
-            <p class="eyebrow">Live Room</p>
-            <h1>Class Chat</h1>
+            <p class="eyebrow">Ruang Aktif</p>
+            <h1>Obrolan Kelas</h1>
           </div>
           <p id="chat-error" class="error-message" role="alert" aria-live="polite"></p>
         </header>
@@ -72,14 +73,14 @@
           <ul id="users-list"></ul>
         </aside>
 
-        <section class="messages-panel" aria-label="Messages">
+        <section class="messages-panel" aria-label="Pesan">
           <div id="messages-list" class="messages-list" aria-live="polite"></div>
         </section>
 
         <form id="message-form" class="message-form" autocomplete="off">
-          <label class="sr-only" for="message-input">Message</label>
-          <input id="message-input" name="message" type="text" maxlength="1000" placeholder="Type a message..." required>
-          <button type="submit">Send</button>
+          <label class="sr-only" for="message-input">Pesan</label>
+          <input id="message-input" name="message" type="text" maxlength="1000" placeholder="Tulis pesan..." required>
+          <button type="submit">Kirim</button>
         </form>
       </section>
     </main>

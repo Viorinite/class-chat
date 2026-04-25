@@ -14,6 +14,11 @@
   const usersList = document.getElementById("users-list");
   const messagesList = document.getElementById("messages-list");
 
+  const requiredMessages = new Map([
+    [nameInput, "Masukkan nama terlebih dahulu."],
+    [passwordInput, "Masukkan kata sandi ruang terlebih dahulu."]
+  ]);
+
   let hasJoined = false;
 
   function setError(message) {
@@ -123,6 +128,16 @@
     messagesList.scrollTop = messagesList.scrollHeight;
   }
 
+  requiredMessages.forEach((message, input) => {
+    input.addEventListener("invalid", () => {
+      input.setCustomValidity(input.validity.valueMissing ? message : "");
+    });
+
+    input.addEventListener("input", () => {
+      input.setCustomValidity("");
+    });
+  });
+
   joinForm.addEventListener("submit", (event) => {
     event.preventDefault();
     clearError();
@@ -165,7 +180,7 @@
   });
 
   socket.on("app:error", ({ message } = {}) => {
-    setError(message || "Something went wrong.");
+    setError(message || "Terjadi kesalahan.");
   });
 
   socket.on("users:update", (users) => {
@@ -177,10 +192,10 @@
   });
 
   socket.on("disconnect", () => {
-    resetToJoin("Connection changed. Please join again.");
+    resetToJoin("Koneksi berubah. Silakan masuk kembali.");
   });
 
   socket.on("connect", () => {
-    resetToJoin("Connection changed. Please join again.");
+    resetToJoin("Koneksi berubah. Silakan masuk kembali.");
   });
 })();
